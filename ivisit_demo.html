@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VeraVisit Demo</title>
-    <!-- Using Tailwind CSS for rapid UI development -->
+    <title>iVisited Demo</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Using Phosphor Icons for a modern feel -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <style>
-        /* Using the Inter font, as is common for modern apps */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
@@ -17,7 +14,6 @@
             -moz-osx-font-smoothing: grayscale;
         }
         
-        /* Custom animation for the stamp */
         @keyframes stamp-appear {
             0% {
                 opacity: 0;
@@ -32,7 +28,6 @@
             animation: stamp-appear 0.5s ease-out;
         }
 
-        /* Custom animation for scanning */
         @keyframes scanner-line {
             0% { top: 0; }
             100% { top: 100%; }
@@ -47,12 +42,11 @@
             animation: scanner-line 2s ease-in-out infinite;
         }
 
-        /* Styling for the simulated phone */
         .phone-container {
             width: 100%;
             max-width: 400px;
             height: 800px;
-            background: #1e1e2e; /* Dark theme */
+            background: #1e1e2e;
             border: 12px solid #111;
             border-radius: 40px;
             box-shadow: 0 30px 60px rgba(0,0,0,0.4);
@@ -64,10 +58,9 @@
         .screen {
             flex-grow: 1;
             overflow-y: auto;
-            background: #f4f5f7; /* Light mode screen */
+            background: #f4f5f7;
             display: flex;
             flex-direction: column;
-            /* Add padding to bottom to not be hidden by tab bar */
             padding-bottom: 80px; 
         }
         .status-bar {
@@ -76,14 +69,12 @@
             align-items: center;
             padding: 12px 20px;
             background: #f4f5f7;
-            /* We'll make it sticky at the top of the .screen */
             position: sticky;
             top: 0;
             z-index: 10;
             border-bottom: 1px solid #e5e7eb;
         }
         
-        /* Styling for the new tab bar */
         .tab-bar {
             position: absolute;
             bottom: 0;
@@ -104,29 +95,28 @@
             flex-direction: column;
             align-items: center;
             font-size: 0.75rem;
-            color: #6b7280; /* text-gray-500 */
+            color: #6b7280;
             background: none;
             border: none;
             cursor: pointer;
         }
         .tab-button.active {
-            color: #2563eb; /* text-blue-600 */
+            color: #2563eb;
         }
         .tab-button i {
-            font-size: 1.75rem; /* text-3xl */
+            font-size: 1.75rem;
             margin-bottom: 2px;
         }
 
-        /* Styling for the new Floating Action Button (FAB) */
         .fab {
             position: absolute;
-            bottom: 90px; /* Above the tab bar */
+            bottom: 90px;
             right: 20px;
             z-index: 15;
             width: 60px;
             height: 60px;
             border-radius: 9999px;
-            background-color: #2563eb; /* bg-blue-600 */
+            background-color: #2563eb;
             color: white;
             display: flex;
             align-items: center;
@@ -136,103 +126,173 @@
             transition: all 0.2s ease-out;
         }
         .fab:hover {
-            background-color: #1d4ed8; /* bg-blue-700 */
+            background-color: #1d4ed8;
         }
         .fab i {
             font-size: 1.75rem;
         }
+        
+        .stamp-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 50%;
+            font-size: 3rem;
+        }
+        
+        .stamp-image {
+            width: 100%;
+            height: 60%;
+            object-fit: cover;
+            border-radius: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stamp-content {
+            height: 40%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
     </style>
 </head>
 <body class="bg-gray-800 flex items-center justify-center min-h-screen p-4">
 
-    <!-- This is the container simulating the smartphone -->
     <div class="phone-container">
         
-        <!-- Simulated Status Bar -->
         <div class="status-bar">
-            <span class="text-sm font-semibold">9:34 AM</span>
+            <span class="text-sm font-semibold">12:00 PM</span>
             <div class="flex items-center space-x-1">
                 <i class="ph ph-wifi-high text-gray-800"></i>
-                <!-- Added "Galileo" icon to status bar -->
                 <i class="ph ph-satellite text-blue-600 text-xs font-bold"></i>
                 <i class="ph ph-battery-full text-gray-800"></i>
             </div>
         </div>
 
-        <!-- App Screen -->
         <div class="screen" id="app-screen">
             
-            <!-- VIEW 1: Passport View (Main) -->
             <div id="passport-view" class="flex flex-col h-full">
-                <!-- Header -->
                 <header class="p-4">
                     <div class="flex justify-between items-center">
-                        <h1 class="text-3xl font-bold text-gray-900">VeraVisit</h1>
-                        <!-- Updated Header with Points -->
+                        <h1 class="text-3xl font-bold text-gray-900">iVisited</h1>
                         <div class="flex items-center space-x-3">
                             <div class="flex items-center space-x-1 p-2 bg-white rounded-full shadow-sm border">
                                 <i class="ph-bold ph-coin text-yellow-500 text-xl"></i>
                                 <span id="user-points" class="font-semibold text-gray-800">1250</span>
                             </div>
-                            <div class="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-semibold">A</div>
+                            <div class="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-semibold">M</div>
                         </div>
                     </div>
                     <p class="text-gray-500">Your verifiable Geo-Passport</p>
                 </header>
 
-                <!-- Passport Stamps Section -->
                 <main class="flex-grow p-4 overflow-y-auto">
                     <h2 class="text-lg font-semibold text-gray-800 mb-3">My Stamps</h2>
                     <div id="stamp-grid" class="grid grid-cols-2 gap-4">
                         
-                        <!-- Sample Stamp 1: Clickable, with proof -->
-                        <div id="ivan_vazov_theatre" class="stamp-clickable aspect-square bg-white border border-gray-200 rounded-lg p-3 flex flex-col items-center justify-center text-center shadow-sm cursor-pointer hover:shadow-md transition-shadow"
-                             data-title='"Ivan Vazov" National Theatre'
-                             data-img="https://placehold.co/400x300/e2e8f0/64748b?text=My+Photo+Here"
-                             data-proof-text="Absolutely stunning architecture! A must-see in Sofia. The atmosphere at night is magical. I'm so glad I came here, and it's amazing to have a verified stamp for it!">
+                        <div id="nevsky_cathedral" class="stamp-clickable aspect-square bg-white border border-gray-200 rounded-lg p-3 flex flex-col items-center justify-center text-center shadow-sm cursor-pointer hover:shadow-md transition-shadow"
+                             data-title='Alexander Nevsky Cathedral'
+                             data-img="images/nevsky.jpg"
+                             data-proof-text="stunning church! I recommend everyone to visit!"
+                             data-word-count="7">
                             <i class="ph-fill ph-check-circle text-green-500 text-2xl absolute top-2 right-2"></i>
-                            <i class="ph-bold ph-theater text-5xl text-red-600"></i>
-                            <h3 class="font-semibold mt-2">"Ivan Vazov" National Theatre</h3>
-                            <p class="text-xs text-gray-500">Sofia, Bulgaria</p>
-                            <p class="text-xs text-gray-500">Verified: 24 Oct 2025</p>
+                            <img src="images/nevsky.jpg" alt="Alexander Nevsky Cathedral" class="stamp-image" onerror="this.replaceWith(this.nextElementSibling)">
+                            <div class="stamp-icon text-yellow-600 hidden"><i class="ph-bold ph-church"></i></div>
+                            <div class="stamp-content">
+                                <h3 class="font-semibold mt-2">Alexander Nevsky Cathedral</h3>
+                                <p class="text-xs text-gray-500">Sofia, Bulgaria</p>
+                                <p class="text-xs text-gray-500">Verified: 9 July 2023</p>
+                            </div>
                         </div>
 
-                        <!-- Sample Stamp 2: Clickable, but no proof yet -->
+                        <div id="ivan_vazov_theatre" class="stamp-clickable aspect-square bg-white border border-gray-200 rounded-lg p-3 flex flex-col items-center justify-center text-center shadow-sm cursor-pointer hover:shadow-md transition-shadow"
+                             data-title='"Ivan Vazov" National Theatre'
+                             data-img="images/ivan_vazov.jpg"
+                             data-proof-text="Nice weather, nice music, nice park nearby!"
+                             data-word-count="8">
+                            <i class="ph-fill ph-check-circle text-green-500 text-2xl absolute top-2 right-2"></i>
+                            <img src="images/ivan_vazov.jpg" alt="Ivan Vazov National Theatre" class="stamp-image" onerror="this.replaceWith(this.nextElementSibling)">
+                            <div class="stamp-icon text-red-600 hidden"><i class="ph-bold ph-theater"></i></div>
+                            <div class="stamp-content">
+                                <h3 class="font-semibold mt-2">"Ivan Vazov" National Theatre</h3>
+                                <p class="text-xs text-gray-500">Sofia, Bulgaria</p>
+                                <p class="text-xs text-gray-500">Verified: 11 July 2023</p>
+                            </div>
+                        </div>
+
                         <div id="eagles_bridge" class="stamp-clickable aspect-square bg-white border border-gray-200 rounded-lg p-3 flex flex-col items-center justify-center text-center shadow-sm cursor-pointer hover:shadow-md transition-shadow"
                              data-title="Eagle's Bridge"
                              data-img=""
-                             data-proof-text="">
+                             data-proof-text=""
+                             data-word-count="0">
                             <i class="ph-fill ph-check-circle text-green-500 text-2xl absolute top-2 right-2"></i>
-                            <i class="ph-bold ph-bridge text-5xl text-purple-600"></i>
-                            <h3 class="font-semibold mt-2">Eagle's Bridge</h3>
-                            <p class="text-xs text-gray-500">Sofia, Bulgaria</p>
-                            <p class="text-xs text-gray-500">Verified: 26 Oct 2025</p>
+                            <div class="stamp-icon text-purple-600"><i class="ph-bold ph-bridge"></i></div>
+                            <div class="stamp-content">
+                                <h3 class="font-semibold mt-2">Eagle's Bridge</h3>
+                                <p class="text-xs text-gray-500">Sofia, Bulgaria</p>
+                                <p class="text-xs text-gray-500">Verified: 12 July 2023</p>
+                            </div>
                         </div>
-                        
-                        <!-- This is a placeholder for the stamp we will earn -->
-                        <!-- <div id="nevsky_cathedral" class="hidden ..."></div> -->
+
+                        <div id="mokassar_beach" class="stamp-clickable aspect-square bg-white border border-gray-200 rounded-lg p-3 flex flex-col items-center justify-center text-center shadow-sm cursor-pointer hover:shadow-md transition-shadow"
+                             data-title='Mokassar Beach'
+                             data-img="images/mokassar.jpg"
+                             data-proof-text="a piece of heaven"
+                             data-word-count="4">
+                            <i class="ph-fill ph-check-circle text-green-500 text-2xl absolute top-2 right-2"></i>
+                            <img src="images/mokassar.jpg" alt="Mokassar Beach" class="stamp-image" onerror="this.replaceWith(this.nextElementSibling)">
+                            <div class="stamp-icon text-cyan-600 hidden"><i class="ph-bold ph-umbrella"></i></div>
+                            <div class="stamp-content">
+                                <h3 class="font-semibold mt-2">Mokassar Beach</h3>
+                                <p class="text-xs text-gray-500">Hormozgan, Iran</p>
+                                <p class="text-xs text-gray-500">Verified: 5 Feb 2024</p>
+                            </div>
+                        </div>
+
+                        <div id="heybeliada" class="stamp-clickable aspect-square bg-white border border-gray-200 rounded-lg p-3 flex flex-col items-center justify-center text-center shadow-sm cursor-pointer hover:shadow-md transition-shadow"
+                             data-title='Heybeliada'
+                             data-img="images/heybeliada.jpg"
+                             data-proof-text="Visited with my mom. Clean Weather, Good food. Best trip ever!"
+                             data-word-count="14">
+                            <i class="ph-fill ph-check-circle text-green-500 text-2xl absolute top-2 right-2"></i>
+                            <img src="images/heybeliada.jpg" alt="Heybeliada" class="stamp-image" onerror="this.replaceWith(this.nextElementSibling)">
+                            <div class="stamp-icon text-green-600 hidden"><i class="ph-bold ph-island"></i></div>
+                            <div class="stamp-content">
+                                <h3 class="font-semibold mt-2">Heybeliada</h3>
+                                <p class="text-xs text-gray-500">Istanbul, Turkey</p>
+                                <p class="text-xs text-gray-500">Verified: 12 Sep 2024</p>
+                            </div>
+                        </div>
+
+                        <div id="martian_mountains" class="stamp-clickable aspect-square bg-white border border-gray-200 rounded-lg p-3 flex flex-col items-center justify-center text-center shadow-sm cursor-pointer hover:shadow-md transition-shadow"
+                             data-title='Martian Mountains'
+                             data-img="images/martian.jpg"
+                             data-proof-text="happily ever after"
+                             data-word-count="3">
+                            <i class="ph-fill ph-check-circle text-green-500 text-2xl absolute top-2 right-2"></i>
+                            <img src="images/martian.jpg" alt="Martian Mountains" class="stamp-image" onerror="this.replaceWith(this.nextElementSibling)">
+                            <div class="stamp-icon text-orange-700 hidden"><i class="ph-bold ph-mountains"></i></div>
+                            <div class="stamp-content">
+                                <h3 class="font-semibold mt-2">Martian Mountains</h3>
+                                <p class="text-xs text-gray-500">Mogham Bay, Iran</p>
+                                <p class="text-xs text-gray-500">Verified: 4 Feb 2025</p>
+                            </div>
+                        </div>
 
                     </div>
                 </main>
-                <!-- Footer (now empty, replaced by FAB and Tab Bar) -->
                 <footer class="p-6">
                 </footer>
             </div>
 
-            <!-- VIEW 2: Map View (New) -->
             <div id="map-view" class="hidden flex-col h-full">
                 <header class="p-4">
                     <h1 class="text-3xl font-bold text-gray-900">Locations</h1>
-                    <p class="text-gray-500">Find your next VeraVisit Beacon</p>
+                    <p class="text-gray-500">Find your next iVisited Beacon</p>
                 </header>
                 <main class="flex-grow bg-gray-200">
-                    <!-- 
-                      This is a 100% working, API-key-free OpenStreetMap embed.
-                      It's centered on Sofia and has markers for our 3 landmarks:
-                      - Nevsky Cathedral (42.6958, 23.3328)
-                      - Ivan Vazov Theatre (42.6946, 23.3217)
-                      - Eagle's Bridge (42.6896, 23.3343)
-                    -->
                     <iframe 
                         width="100%" 
                         height="100%" 
@@ -240,73 +300,92 @@
                         scrolling="no" 
                         marginheight="0" 
                         marginwidth="0" 
-                        src="https://www.openstreetmap.org/export/embed.html?bbox=23.3150,42.6880,23.3400,42.6990&amp;layer=mapnik&amp;marker=42.6958,23.3328&amp;marker=42.6946,23.3217&amp;marker=42.6896,23.3343" 
+                        src="https://www.openstreetmap.org/export/embed.html?bbox=23.3150,42.6880,23.3400,42.6990&amp;layer=mapnik&amp;marker=42.6958,23.3328&amp;marker=42.6946,23.3217&amp;marker=42.6896,23.3343&amp;marker=42.6945,23.3251&amp;marker=42.6966,23.3219" 
                         style="border: 1px solid black">
                     </iframe>
                 </main>
             </div>
 
-            <!-- VIEW 3: Friends View (New) -->
             <div id="friends-view" class="hidden flex-col h-full">
                 <header class="p-4">
                     <h1 class="text-3xl font-bold text-gray-900">Friends</h1>
                     <p class="text-gray-500">See your friends' verified passports</p>
                 </header>
                 <main class="flex-grow p-4 space-y-3">
-                    <!-- This is a "peaceful" friends list. No chat, no comments. -->
-                    <div class="bg-white p-4 rounded-lg shadow-sm border flex justify-between items-center">
-                        <div class="flex items-center">
-                            <div class="w-12 h-12 rounded-full bg-red-500 text-white flex items-center justify-center font-semibold text-xl mr-3">G</div>
+                    <div class="friend-clickable bg-white p-4 rounded-lg shadow-sm border flex justify-between items-center cursor-pointer" data-friend-name="Radina Nikolova" data-stamp-count="18">
+                        <div class="flex items-center pointer-events-none">
+                            <div class="w-12 h-12 rounded-full bg-red-500 text-white flex items-center justify-center font-semibold text-xl mr-3">RN</div>
                             <div>
-                                <h3 class="font-semibold text-lg">Georgi Dimitrov</h3>
-                                <p class="text-sm text-gray-500">Collected 14 Stamps</p>
+                                <h3 class="font-semibold text-lg">Radina Nikolova</h3>
+                                <p class="text-sm text-gray-500">Collected 18 Stamps</p>
                             </div>
                         </div>
-                        <button class="text-gray-400 hover:text-gray-600">
+                        <button class="text-gray-400 hover:text-gray-600 pointer-events-none">
                             <i class="ph ph-user-circle text-3xl"></i>
                         </button>
                     </div>
-                    <div class="bg-white p-4 rounded-lg shadow-sm border flex justify-between items-center">
-                        <div class="flex items-center">
-                            <div class="w-12 h-12 rounded-full bg-purple-500 text-white flex items-center justify-center font-semibold text-xl mr-3">A</div>
+                    <div class="friend-clickable bg-white p-4 rounded-lg shadow-sm border flex justify-between items-center cursor-pointer" data-friend-name="Krasin Georgiev" data-stamp-count="11">
+                        <div class="flex items-center pointer-events-none">
+                            <div class="w-12 h-12 rounded-full bg-purple-500 text-white flex items-center justify-center font-semibold text-xl mr-3">KG</div>
                             <div>
-                                <h3 class="font-semibold text-lg">Anna Petrova</h3>
-                                <p class="text-sm text-gray-500">Collected 9 Stamps</p>
+                                <h3 class="font-semibold text-lg">Krasin Georgiev</h3>
+                                <p class="text-sm text-gray-500">Collected 11 Stamps</p>
                             </div>
                         </div>
-                        <button class="text-gray-400 hover:text-gray-600">
+                        <button class="text-gray-400 hover:text-gray-600 pointer-events-none">
                             <i class="ph ph-user-circle text-3xl"></i>
                         </button>
                     </div>
-                    <div class="bg-white p-4 rounded-lg shadow-sm border flex justify-between items-center">
-                        <div class="flex items-center">
-                            <div class="w-12 h-12 rounded-full bg-yellow-500 text-white flex items-center justify-center font-semibold text-xl mr-3">V</div>
+                    <div class="friend-clickable bg-white p-4 rounded-lg shadow-sm border flex justify-between items-center cursor-pointer" data-friend-name="Ali Mari Oryad" data-stamp-count="7">
+                        <div class="flex items-center pointer-events-none">
+                            <div class="w-12 h-12 rounded-full bg-yellow-600 text-white flex items-center justify-center font-semibold text-xl mr-3">AM</div>
                             <div>
-                                <h3 class="font-semibold text-lg">Viktor Krum</h3>
-                                <p class="text-sm text-gray-500">Collected 2 Stamps</p>
+                                <h3 class="font-semibold text-lg">Ali Mari Oryad</h3>
+                                <p class="text-sm text-gray-500">Collected 7 Stamps</p>
                             </div>
                         </div>
-                        <button class="text-gray-400 hover:text-gray-600">
+                        <button class="text-gray-400 hover:text-gray-600 pointer-events-none">
+                            <i class="ph ph-user-circle text-3xl"></i>
+                        </button>
+                    </div>
+                     <div class="friend-clickable bg-white p-4 rounded-lg shadow-sm border flex justify-between items-center cursor-pointer" data-friend-name="Hamideh Azimzadeh" data-stamp-count="5">
+                        <div class="flex items-center pointer-events-none">
+                            <div class="w-12 h-12 rounded-full bg-green-600 text-white flex items-center justify-center font-semibold text-xl mr-3">HA</div>
+                            <div>
+                                <h3 class="font-semibold text-lg">Hamideh Azimzadeh</h3>
+                                <p class="text-sm text-gray-500">Collected 5 Stamps</p>
+                            </div>
+                        </div>
+                        <button class="text-gray-400 hover:text-gray-600 pointer-events-none">
+                            <i class="ph ph-user-circle text-3xl"></i>
+                        </button>
+                    </div>
+                     <div class="friend-clickable bg-white p-4 rounded-lg shadow-sm border flex justify-between items-center cursor-pointer" data-friend-name="Dimiter Ginchev" data-stamp-count="3">
+                        <div class="flex items-center pointer-events-none">
+                            <div class="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold text-xl mr-3">DG</div>
+                            <div>
+                                <h3 class="font-semibold text-lg">Dimiter Ginchev</h3>
+                                <p class="text-sm text-gray-500">Collected 3 Stamps</p>
+                            </div>
+                        </div>
+                        <button class="text-gray-400 hover:text-gray-600 pointer-events-none">
                             <i class="ph ph-user-circle text-3xl"></i>
                         </button>
                     </div>
                 </main>
             </div>
 
-            <!-- VIEW 4: Settings View (New) -->
             <div id="settings-view" class="hidden flex-col h-full">
                 <header class="p-4">
                     <h1 class="text-3xl font-bold text-gray-900">Settings</h1>
                     <p class="text-gray-500">Manage your account and preferences</p>
                 </header>
                 <main class="flex-grow p-4 space-y-4">
-                    <!-- Profile Section -->
                     <div class="bg-white p-4 rounded-lg shadow-sm border flex justify-between items-center cursor-pointer">
                         <span class="font-semibold text-gray-700">Profile</span>
-                        <i class="ph ph-caret-right text-gray-400"></i>
+                        <span class="font-semibold text-gray-900">Mahsa Azadmanesh</span>
                     </div>
 
-                    <!-- Points & Shop Section -->
                     <div class="bg-white p-4 rounded-lg shadow-sm border flex justify-between items-center cursor-pointer">
                         <span class="font-semibold text-gray-700">Points Shop</span>
                         <div class="flex items-center space-x-2 text-blue-600">
@@ -315,14 +394,12 @@
                         </div>
                     </div>
                     
-                    <!-- Safety Feature Section -->
                     <div class="bg-white p-4 rounded-lg shadow-sm border">
                         <div class="flex justify-between items-center">
                             <div>
                                 <h3 class="font-semibold text-gray-700">24-Hour Proof Delay</h3>
                                 <p class="text-sm text-gray-500">Post your public proofs 24 hours after visiting.</p>
                             </div>
-                            <!-- Simple Tailwind Toggle Switch -->
                             <label class="relative inline-flex items-center cursor-pointer">
                                 <input type="checkbox" value="" class="sr-only peer">
                                 <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-2 peer-focus:ring-blue-300 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
@@ -330,9 +407,12 @@
                         </div>
                     </div>
 
-                    <!-- Other Settings -->
                     <div class="bg-white p-4 rounded-lg shadow-sm border flex justify-between items-center cursor-pointer">
                         <span class="font-semibold text-gray-700">Privacy & Security</span>
+                        <i class="ph ph-caret-right text-gray-400"></i>
+                    </div>
+                    <div id="about-us-button" class="bg-white p-4 rounded-lg shadow-sm border flex justify-between items-center cursor-pointer">
+                        <span class="font-semibold text-gray-700">About iVisited & Our Tech</span>
                         <i class="ph ph-caret-right text-gray-400"></i>
                     </div>
                     <div class="bg-white p-4 rounded-lg shadow-sm border flex justify-between items-center cursor-pointer">
@@ -341,20 +421,17 @@
                 </main>
             </div>
 
-            <!-- VIEW 5: Scanning View (Was VIEW 3) -->
             <div id="scanning-view" class="hidden flex-col h-full bg-gray-900 text-white p-6 justify-between">
                 <div>
-                    <h2 class="text-2xl font-semibold text-center mb-6">Scanning for VeraVisit Beacon...</h2>
+                    <h2 class="text-2xl font-semibold text-center mb-6">Scanning for iVisited Beacon...</h2>
                     <div class="relative w-64 h-64 mx-auto rounded-lg overflow-hidden border-2 border-blue-400 bg-gray-800">
-                        <!-- This simulates the landmark (Nevsky Cathedral) -->
-                        <i class="ph-bold ph-church text-9xl text-gray-600 absolute inset-0 flex items-center justify-center"></i>
+                        <i class="ph-bold ph-circle-dashed text-9xl text-gray-600 absolute inset-0 flex items-center justify-center"></i>
                         <div class="scanner-line"></div>
                     </div>
                 </div>
                 
                 <div class="text-center">
                     <div id="verification-steps">
-                        <!-- JS will inject status messages here -->
                     </div>
                 </div>
 
@@ -363,14 +440,65 @@
                 </button>
             </div>
 
-        </div> <!-- /screen -->
+            <div id="about-view" class="hidden flex-col h-full">
+                <header class="p-4 flex items-center border-b border-gray-200 sticky top-0 bg-f4f5f7 z-10">
+                    <button id="about-back-button" class="text-gray-600 hover:text-blue-600">
+                        <i class="ph ph-arrow-left text-2xl"></i>
+                    </button>
+                    <h1 class="text-xl font-bold text-gray-900 ml-4">About iVisited</h1>
+                </header>
+                <main class="flex-grow p-5 overflow-y-auto space-y-6">
+                    <div class="text-center pt-4">
+                        <i class="ph-bold ph-satellite text-7xl text-blue-600"></i>
+                        <h2 class="text-2xl font-bold text-gray-900 mt-2">Trust in Every Stamp</h2>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold text-lg mb-2 text-gray-800">Why Can You Trust iVisited?</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            This isn't just another "check-in" app! When you get a stamp, you're getting cryptographic proof. Our iVisited Beacons use a groundbreaking feature from Europe's <strong>Galileo satellite system</strong> called <strong>OS-NMA</strong> (Open Service Navigation Message Authentication).
+                        </p>
+                        <p class="text-gray-600 text-sm leading-relaxed mt-2">
+                            In simple terms, OS-NMA is like a digital signature that proves the location data is coming <em>directly</em> from the Galileo satellites and has not been faked or "spoofed" by a hacker. If Galileo trusts the location, we trust the location.
+                        </p>
+                    </div>
 
-        <!-- Floating Action Button (FAB) for Scanning -->
+                    <div>
+                        <h3 class="font-semibold text-lg mb-2 text-gray-800">How to Use the App</h3>
+                        <ol class="list-decimal list-inside text-gray-600 text-sm space-y-2">
+                            <li><strong>Find a Beacon:</strong> Use the "Map" tab to find an iVisited Beacon at an iconic landmark.</li>
+                            <li><strong>Scan for Proof:</strong> When you're at the location, tap the big "Scan" button.</li>
+                            <li><strong>Get Verified:</strong> Your phone will securely connect to the beacon and verify its authentic Galileo-powered location.</li>
+                            <li><strong>Collect Your Stamp:</strong> Once verified, the new stamp is added to your "Passport" and you earn points!</li>
+                            <li><strong>Add Your Proof:</strong> Tap any stamp in your passport to add your own photo and a 50-word note to remember your adventure.</li>
+                        </ol>
+                    </div>
+
+                    <div class="bg-blue-50 border border-blue-200 text-blue-800 p-4 rounded-lg">
+                        <p class="text-sm font-semibold">Our mission is to help you create a travel diary you can truly trust. Happy travels!</p>
+                    </div>
+                </main>
+            </div>
+            
+            <div id="friend-passport-view" class="hidden flex-col h-full">
+                <header class="p-4 flex items-center border-b border-gray-200 sticky top-0 bg-f4f5f7 z-10">
+                    <button id="friend-passport-back-button" class="text-gray-600 hover:text-blue-600">
+                        <i class="ph ph-arrow-left text-2xl"></i>
+                    </button>
+                    <h1 id="friend-passport-title" class="text-xl font-bold text-gray-900 ml-4">Friend's Passport</h1>
+                </header>
+                <main class="flex-grow p-4 overflow-y-auto">
+                    <div id="friend-stamp-grid" class="grid grid-cols-2 gap-4">
+                    </div>
+                </main>
+            </div>
+
+        </div>
+
         <button id="scan-button" class="fab">
             <i class="ph-bold ph-scan"></i>
         </button>
 
-        <!-- Tab Bar -->
         <footer class="tab-bar">
             <button id="passport-tab" class="tab-button active">
                 <i class="ph-bold ph-list"></i>
@@ -390,9 +518,8 @@
             </button>
         </footer>
 
-    </div> <!-- /phone-container -->
+    </div>
     
-    <!-- MODAL for "Proof" (Hidden by default) -->
     <div id="proof-modal" class="hidden absolute inset-0 bg-black/60 flex items-center justify-center p-4 z-30">
         <div class="bg-white rounded-lg shadow-xl w-full max-w-sm overflow-hidden">
             <header class="p-4 border-b border-gray-200 flex justify-between items-center">
@@ -404,7 +531,10 @@
             <main class="p-4">
                 <img id="modal-img" src="" alt="User Proof Photo" class="w-full h-48 object-cover rounded-md bg-gray-100 mb-4">
                 <div id="modal-caption-wrapper">
-                    <p class="text-xs text-gray-500 uppercase font-semibold mb-1">My 50-Word Proof</p>
+                    <div class="flex justify-between items-center mb-1">
+                        <p class="text-xs text-gray-500 uppercase font-semibold">My Proof</p>
+                        <p id="modal-word-count" class="text-xs text-gray-500 font-semibold">0/50 words</p>
+                    </div>
                     <p id="modal-caption" class="text-gray-700 text-sm"></p>
                 </div>
                 <div id="modal-add-proof" class="hidden text-center">
@@ -419,12 +549,13 @@
 
 
     <script>
-        // === Get all the DOM elements we need ===
         const passportView = document.getElementById('passport-view');
         const mapView = document.getElementById('map-view');
         const friendsView = document.getElementById('friends-view');
         const settingsView = document.getElementById('settings-view');
         const scanningView = document.getElementById('scanning-view');
+        const aboutView = document.getElementById('about-view');
+        const friendPassportView = document.getElementById('friend-passport-view');
         
         const passportTab = document.getElementById('passport-tab');
         const mapTab = document.getElementById('map-tab');
@@ -432,6 +563,12 @@
         const settingsTab = document.getElementById('settings-tab');
         const scanButton = document.getElementById('scan-button');
         const cancelButton = document.getElementById('cancel-button');
+        
+        const aboutUsButton = document.getElementById('about-us-button');
+        const aboutBackButton = document.getElementById('about-back-button');
+        const friendPassportBackButton = document.getElementById('friend-passport-back-button');
+        const friendPassportTitle = document.getElementById('friend-passport-title');
+        const friendStampGrid = document.getElementById('friend-stamp-grid');
         
         const stampGrid = document.getElementById('stamp-grid');
         const verificationSteps = document.getElementById('verification-steps');
@@ -442,23 +579,46 @@
         const modalTitle = document.getElementById('modal-title');
         const modalImg = document.getElementById('modal-img');
         const modalCaption = document.getElementById('modal-caption');
+        const modalWordCount = document.getElementById('modal-word-count');
         const modalCaptionWrapper = document.getElementById('modal-caption-wrapper');
         const modalAddProof = document.getElementById('modal-add-proof');
 
-        // This is the stamp we will add
+        const tabBar = document.querySelector('.tab-bar');
+        const allViews = [passportView, mapView, friendsView, settingsView, scanningView, aboutView, friendPassportView];
+
         const newStamp = {
-            id: 'nevsky_cathedral',
-            name: 'Nevsky Cathedral',
-            icon: 'ph-church',
-            color: 'text-yellow-600',
+            id: 'st_george_rotunda',
+            name: 'St. George Rotunda',
+            icon: 'ph-circle-wavy-check',
+            color: 'text-red-700',
             date: '27 Oct 2025',
             city: 'Sofia',
             country: 'Bulgaria',
             img: '',
-            proof_text: ''
+            proof_text: '',
+            word_count: 0
         };
 
-        // --- Event Listeners ---
+        const allFriendStamps = [
+            { name: 'Nevsky Cathedral', icon: 'ph-church', color: 'text-yellow-600', city: 'Sofia', country: 'Bulgaria', date: '15 Jan 2024' },
+            { name: 'Ivan Vazov Theatre', icon: 'ph-theater', color: 'text-red-600', city: 'Sofia', country: 'Bulgaria', date: '17 Jan 2024' },
+            { name: 'Eagle\'s Bridge', icon: 'ph-bridge', color: 'text-purple-600', city: 'Sofia', country: 'Bulgaria', date: '18 Jan 2024' },
+            { name: 'Vitosha Mountain', icon: 'ph-mountains', color: 'text-green-700', city: 'Sofia', country: 'Bulgaria', date: '22 Feb 2024' },
+            { name: 'Ancient Theatre', icon: 'ph-bank', color: 'text-orange-600', city: 'Plovdiv', country: 'Bulgaria', date: '10 Mar 2024' },
+            { name: 'Kapana District', icon: 'ph-paint-brush', color: 'text-blue-600', city: 'Plovdiv', country: 'Bulgaria', date: '11 Mar 2024' },
+            { name: 'Old Town Plovdiv', icon: 'ph-person-simple-run', color: 'text-gray-700', city: 'Plovdiv', country: 'Bulgaria', date: '12 Mar 2024' },
+            { name: 'Sozopol Old Town', icon: 'ph-castle-turret', color: 'text-cyan-700', city: 'Sozopol', country: 'Bulgaria', date: '5 Jun 2024' },
+            { name: 'Ravadinovo Castle', icon: 'ph-anchor', color: 'text-blue-800', city: 'Sozopol', country: 'Bulgaria', date: '6 Jun 2024' },
+            { name: 'Kavatsite Beach', icon: 'ph-umbrella', color: 'text-yellow-500', city: 'Sozopol', country: 'Bulgaria', date: '7 Jun 2024' },
+            { name: 'Sea Garden', icon: 'ph-flower', color: 'text-pink-500', city: 'Burgas', country: 'Bulgaria', date: '15 Jul 2024' },
+            { name: 'The Pier', icon: 'ph-buildings', color: 'text-teal-600', city: 'Burgas', country: 'Bulgaria', date: '16 Jul 2024' },
+            { name: 'Atanasovsko Lake', icon: 'ph-bird', color: 'text-blue-400', city: 'Burgas', country: 'Bulgaria', date: '17 Jul 2024' },
+            { name: 'St. Anastasia Island', icon: 'ph-island', color: 'text-green-600', city: 'Burgas', country: 'Bulgaria', date: '18 Jul 2024' },
+            { name: 'Sea Garden (Varna)', icon: 'ph-flower-lotus', color: 'text-purple-400', city: 'Varna', country: 'Bulgaria', date: '2 Aug 2024' },
+            { name: 'Varna Cathedral', icon: 'ph-church', color: 'text-orange-400', city: 'Varna', country: 'Bulgaria', date: '3 Aug 2024' },
+            { name: 'Roman Thermae', icon: 'ph-drop', color: 'text-cyan-500', city: 'Varna', country: 'Bulgaria', date: '4 Aug 2024' },
+            { name: 'Aladzha Monastery', icon: 'ph-mountains', color: 'text-lime-700', city: 'Varna', country: 'Bulgaria', date: '5 Aug 2024' },
+        ];
         
         scanButton.addEventListener('click', startScan);
         cancelButton.addEventListener('click', cancelScan);
@@ -466,101 +626,116 @@
         mapTab.addEventListener('click', showMapView);
         friendsTab.addEventListener('click', showFriendsView);
         settingsTab.addEventListener('click', showSettingsView);
+        aboutUsButton.addEventListener('click', showAboutView);
+        aboutBackButton.addEventListener('click', showSettingsView);
+        friendPassportBackButton.addEventListener('click', showFriendsView);
         
-        // --- Stamp "Proof" Modal Listeners ---
         stampGrid.addEventListener('click', (e) => {
-            // We use .closest() to make sure we get the stamp,
-            // even if the user clicks the icon or text inside it.
             const stamp = e.target.closest('.stamp-clickable');
             if (stamp) {
                 openProofModal(stamp);
             }
         });
+
+        document.querySelectorAll('.friend-clickable').forEach(friend => {
+            friend.addEventListener('click', (e) => {
+                const friendName = e.currentTarget.getAttribute('data-friend-name');
+                const stampCount = parseInt(e.currentTarget.getAttribute('data-stamp-count'));
+                showFriendPassportView(friendName, stampCount);
+            });
+        });
+        
         modalCloseBtn.addEventListener('click', () => {
             proofModal.classList.add('hidden');
         });
 
+        function hideAllViews() {
+            allViews.forEach(view => {
+                view.classList.add('hidden');
+                view.classList.remove('flex');
+            });
+        }
 
-        // === Tab Navigation Functions ===
+        function showView(viewToShow, { showScan, showTabs }) {
+            hideAllViews();
+            viewToShow.classList.remove('hidden');
+            viewToShow.classList.add('flex');
+            
+            if (showScan) {
+                scanButton.classList.remove('hidden');
+            } else {
+                scanButton.classList.add('hidden');
+            }
+
+            if (showTabs) {
+                tabBar.classList.remove('hidden');
+                tabBar.classList.add('flex');
+            } else {
+                tabBar.classList.add('hidden');
+                tabBar.classList.remove('flex');
+            }
+        }
 
         function showPassportView() {
-            passportView.classList.remove('hidden');
-            passportView.classList.add('flex');
-            mapView.classList.add('hidden');
-            mapView.classList.remove('flex');
-            friendsView.classList.add('hidden');
-            friendsView.classList.remove('flex');
-            settingsView.classList.add('hidden');
-            settingsView.classList.remove('flex');
-            
+            showView(passportView, { showScan: true, showTabs: true });
             passportTab.classList.add('active');
             mapTab.classList.remove('active');
             friendsTab.classList.remove('active');
             settingsTab.classList.remove('active');
-            scanButton.classList.remove('hidden');
         }
 
         function showMapView() {
-            passportView.classList.add('hidden');
-            passportView.classList.remove('flex');
-            mapView.classList.remove('hidden');
-            mapView.classList.add('flex');
-            friendsView.classList.add('hidden');
-            friendsView.classList.remove('flex');
-            settingsView.classList.add('hidden');
-            settingsView.classList.remove('flex');
-
+            showView(mapView, { showScan: true, showTabs: true });
             passportTab.classList.remove('active');
             mapTab.classList.add('active');
             friendsTab.classList.remove('active');
             settingsTab.classList.remove('active');
-            scanButton.classList.remove('hidden');
         }
 
         function showFriendsView() {
-            passportView.classList.add('hidden');
-            passportView.classList.remove('flex');
-            mapView.classList.add('hidden');
-            mapView.classList.remove('flex');
-            friendsView.classList.remove('hidden');
-            friendsView.classList.add('flex');
-            settingsView.classList.add('hidden');
-            settingsView.classList.remove('flex');
-
+            showView(friendsView, { showScan: true, showTabs: true });
             passportTab.classList.remove('active');
             mapTab.classList.remove('active');
             friendsTab.classList.add('active');
             settingsTab.classList.remove('active');
-            scanButton.classList.remove('hidden');
         }
 
         function showSettingsView() {
-            passportView.classList.add('hidden');
-            passportView.classList.remove('flex');
-            mapView.classList.add('hidden');
-            mapView.classList.remove('flex');
-            friendsView.classList.add('hidden');
-            friendsView.classList.remove('flex');
-            settingsView.classList.remove('hidden');
-            settingsView.classList.add('flex');
-
+            showView(settingsView, { showScan: false, showTabs: true });
             passportTab.classList.remove('active');
             mapTab.classList.remove('active');
             friendsTab.classList.remove('active');
             settingsTab.classList.add('active');
-            // Hide the scan button on the settings page
-            scanButton.classList.add('hidden');
         }
-        
 
-        // === Core Scanning and Verification Logic ===
-        
+        function showAboutView() {
+            showView(aboutView, { showScan: false, showTabs: false });
+        }
+
+        function showFriendPassportView(friendName, stampCount) {
+            friendPassportTitle.textContent = `${friendName}'s Passport`;
+            
+            friendStampGrid.innerHTML = '';
+            
+            const stampsToShow = allFriendStamps.slice(0, stampCount);
+
+            stampsToShow.forEach(stamp => {
+                const stampEl = document.createElement('div');
+                stampEl.className = 'aspect-square bg-white border border-gray-200 rounded-lg p-3 flex flex-col items-center justify-center text-center shadow-sm';
+                stampEl.innerHTML = `
+                    <i class="ph-bold ${stamp.icon} text-5xl ${stamp.color}"></i>
+                    <h3 class="font-semibold mt-2">${stamp.name}</h3>
+                    <p class="text-xs text-gray-500">${stamp.city}, ${stamp.country}</p>
+                    <p class="text-xs text-gray-500">Verified: ${stamp.date}</p>
+                `;
+                friendStampGrid.appendChild(stampEl);
+            });
+            
+            showView(friendPassportView, { showScan: false, showTabs: false });
+        }
+
         function startScan() {
-            // Check if we already have this stamp
             if (document.getElementById(newStamp.id)) {
-                // In a real app, use a custom modal
-                console.log("Stamp already collected!");
-                // We'll just briefly show a message
                 const fab = scanButton.querySelector('i');
                 fab.classList.remove('ph-scan');
                 fab.classList.add('ph-check');
@@ -571,64 +746,39 @@
                 return;
             }
 
-            // Switch to the scanning view (hides tabs and main content)
-            passportView.classList.add('hidden');
-            mapView.classList.add('hidden');
-            friendsView.classList.add('hidden');
-            settingsView.classList.add('hidden');
-            scanningView.classList.remove('hidden');
-            scanningView.classList.add('flex');
-            
-            // Hide tabs and FAB
-            document.querySelector('.tab-bar').classList.add('hidden');
-            scanButton.classList.add('hidden');
-            
-            // Start the simulated verification process
+            showView(scanningView, { showScan: false, showTabs: false });
             runVerification();
         }
 
         function cancelScan() {
-            // Switch back to the main view
-            scanningView.classList.add('hidden');
-            scanningView.classList.remove('flex');
-            
-            // Show the correct tab (default to passport) and FAB
-            document.querySelector('.tab-bar').classList.remove('hidden');
-            scanButton.classList.remove('hidden');
             showPassportView();
-
-
-            // Clear any verification messages
             verificationSteps.innerHTML = '';
         }
 
-        /**
-         * Simulates the multi-step verification process
-         */
         async function runVerification() {
             verificationSteps.innerHTML = '';
             
             try {
-                await addStep('Connecting to VeraVisit Beacon...', 'ph-bluetooth-logo', 2000);
+                await addStep('Connecting to iVisited Beacon...', 'ph-bluetooth-logo', 2000);
                 await addStep('Requesting Galileo OS-NMA signature...', 'ph-satellite', 2000);
                 await addStep('Signature received. Verifying...', 'ph-lock-key', 3000);
                 await addStep('AUTHENTICATED! Location Verified.', 'ph-check-circle', 1000);
                 grantNewStamp();
 
             } catch (err) {
-                // This would catch errors if the promise was rejected
-                console.error("Verification failed:", err);
-                await addStep('Verification Failed!', 'ph-x-circle', 1000);
-                setTimeout(cancelScan, 1500);
+                if (err.message !== 'Scan cancelled') {
+                    await addStep('Verification Failed!', 'ph-x-circle', 1000);
+                    setTimeout(cancelScan, 1500);
+                }
             }
         }
 
-        /**
-         * Helper function to show a delayed step in the UI
-         */
         function addStep(message, icon, delay) {
             return new Promise((resolve, reject) => {
-                // Add the new step message
+                if (scanningView.classList.contains('hidden')) {
+                    return reject(new Error('Scan cancelled'));
+                }
+                
                 const step = document.createElement('div');
                 step.className = 'flex items-center justify-center text-lg text-gray-300 mb-2 opacity-0 transition-opacity duration-500';
                 step.innerHTML = `
@@ -636,89 +786,79 @@
                     <span>${message}</span>
                 `;
                 
-                // Remove 'in-progress' from previous step
                 const lastStep = verificationSteps.querySelector('.in-progress');
                 if (lastStep) {
                     lastStep.classList.remove('in-progress', 'text-gray-300');
                     lastStep.classList.add('text-green-400');
                 }
                 
-                // Add new step
                 verificationSteps.appendChild(step);
-                // Force a repaint before adding class for transition to work
                 void step.offsetWidth; 
                 step.classList.add('opacity-100', 'in-progress');
 
-                // Wait for the simulated delay, then resolve the promise
                 setTimeout(resolve, delay);
             });
         }
 
-        /**
-         * Adds the new stamp to the UI and updates points
-         */
         function grantNewStamp() {
-            // 1. Create the new stamp HTML element
+            if (scanningView.classList.contains('hidden')) return;
+
             const stampElement = document.createElement('div');
             stampElement.id = newStamp.id;
             stampElement.className = 'stamp-clickable aspect-square bg-white border-2 border-blue-500 rounded-lg p-3 flex flex-col items-center justify-center text-center shadow-lg cursor-pointer stamp-animation';
             
-            // Add the data attributes so it can be clicked to open the modal
             stampElement.setAttribute('data-title', newStamp.name);
             stampElement.setAttribute('data-img', newStamp.img);
             stampElement.setAttribute('data-proof-text', newStamp.proof_text);
+            stampElement.setAttribute('data-word-count', newStamp.word_count);
 
             stampElement.innerHTML = `
                 <i class="ph-fill ph-check-circle text-green-500 text-2xl absolute top-2 right-2"></i>
-                <i class="ph-bold ${newStamp.icon} text-5xl ${newStamp.color}"></i>
-                <h3 class="font-semibold mt-2">${newStamp.name}</h3>
-                <p class="text-xs text-gray-500">${newStamp.city}, ${newStamp.country}</p>
-                <p class="text-xs text-gray-500">Verified: ${newStamp.date}</p>
+                <div class="stamp-icon ${newStamp.color}"><i class="ph-bold ${newStamp.icon}"></i></div>
+                <div class="stamp-content">
+                    <h3 class="font-semibold mt-2">${newStamp.name}</h3>
+                    <p class="text-xs text-gray-500">${newStamp.city}, ${newStamp.country}</p>
+                    <p class="text-xs text-gray-500">Verified: ${newStamp.date}</p>
+                </div>
             `;
 
-            // 2. Add the new stamp to the grid
             stampGrid.appendChild(stampElement);
             
-            // 3. Update points in the header
             const currentPoints = parseInt(userPointsEl.textContent);
-            userPointsEl.textContent = currentPoints + 100; // Add 100 points
+            userPointsEl.textContent = currentPoints + 100;
             
-            // 4. Wait a moment, then switch back to the main view
             setTimeout(() => {
                 cancelScan();
-                // Scroll to the bottom to show the new stamp
                 const screen = document.getElementById('app-screen');
                 screen.scrollTop = screen.scrollHeight;
-            }, 1000); // Wait 1 sec on the "AUTHENTICATED" message
+            }, 1000);
         }
 
-        /**
-         * Opens the "Proof" modal
-         */
         function openProofModal(stamp) {
-            // Get data from the clicked stamp
             const title = stamp.getAttribute('data-title');
             const imgUrl = stamp.getAttribute('data-img');
             const proofText = stamp.getAttribute('data-proof-text');
+            const wordCount = stamp.getAttribute('data-word-count');
 
-            // Populate the modal
             modalTitle.textContent = title;
+            modalWordCount.textContent = `${wordCount}/50 words`;
 
             if (proofText) {
-                // We HAVE proof, show it
-                modalImg.src = imgUrl;
-                modalImg.classList.remove('hidden');
+                if (imgUrl) {
+                    modalImg.src = imgUrl;
+                    modalImg.classList.remove('hidden');
+                } else {
+                    modalImg.classList.add('hidden');
+                }
                 modalCaption.textContent = proofText;
                 modalCaptionWrapper.classList.remove('hidden');
                 modalAddProof.classList.add('hidden');
             } else {
-                // We DON'T have proof, show the "Add Proof" button
                 modalImg.classList.add('hidden');
                 modalCaptionWrapper.classList.add('hidden');
                 modalAddProof.classList.remove('hidden');
             }
             
-            // Show the modal
             proofModal.classList.remove('hidden');
         }
 
